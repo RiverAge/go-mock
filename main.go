@@ -138,6 +138,8 @@ type codeRetT struct {
 }
 
 func updateFromCSV(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	db, err := sqlx.Connect("sqlite3", "_db.db")
 	if err != nil {
 		panic(err)
@@ -172,6 +174,8 @@ func updateFromCSV(w http.ResponseWriter, r *http.Request) {
 }
 
 func dataColumnWidthUpdate(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	db, err := sqlx.Connect("sqlite3", "_db.db")
 	if err != nil {
 		panic(err)
@@ -190,7 +194,8 @@ func dataColumnWidthUpdate(w http.ResponseWriter, r *http.Request) {
 }
 
 func dataColumnUpdate(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	db, err := sqlx.Connect("sqlite3", "_db.db")
 	if err != nil {
 		panic(err)
@@ -223,6 +228,8 @@ func dataColumnUpdate(w http.ResponseWriter, r *http.Request) {
 }
 
 func dataColumn(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	db, err := sqlx.Connect("sqlite3", "_db.db")
 	if err != nil {
 		log.Fatalln(err)
@@ -246,7 +253,8 @@ func dataColumn(w http.ResponseWriter, r *http.Request) {
 }
 
 func dataPerson(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	db, err := sqlx.Connect("sqlite3", "_db.db")
 	if err != nil {
 		log.Fatalln(err)
