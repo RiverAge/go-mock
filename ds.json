@@ -1,0 +1,97 @@
+[
+  {
+    "name": "菜单1",
+    "icon": "el-icon-location",
+    "path": "/menu1"
+  },
+  {
+    "name": "菜单0",
+    "icon": "el-icon-news",
+    "subMenu": [
+      {
+        "name": "菜单2-菜单1",
+        "icon": "el-icon-goods",
+        "path": "/dashboard/about1"
+      },
+      {
+        "name": "菜单2-菜单2",
+        "icon": "el-icon-sold-out",
+        "path": "/dashboard/about2"
+      },
+      {
+        "name": "菜单2-菜单3",
+        "icon": "el-icon-news",
+        "path": "/dashboard/about3"
+      }
+    ]
+  },
+  {
+    "name": "菜单3",
+    "icon": "el-icon-edit-outline",
+    "subMenu": [
+      {
+        "name": "菜单3-菜单1",
+        "icon": "el-icon-setting",
+        "subMenu": [
+          {
+            "name": "菜单3-菜单1-菜单1",
+            "icon": "el-icon-search",
+            "path": "/dashboard/menu0/menu1"
+          },
+          {
+            "name": "菜单3-菜单1-菜单2",
+            "icon": "el-icon-news",
+            "path": "/dashboard/menu0/menu2"
+          },
+          {
+            "name": "菜单3-菜单1-菜单3",
+            "icon": "el-icon-bell",
+            "path": "/dashboard/menu0/menu3"
+          }
+        ]
+      },
+      {
+        "name": "菜单3-菜单2",
+        "icon": "el-icon-goods",
+        "subMenu": [
+          {
+            "name": "菜单3-菜单2-菜单1",
+            "icon": "el-icon-document",
+            "path": "/dashboard/menu2/menu1"
+          },
+          {
+            "name": "菜单3-菜单2-菜单2",
+            "icon": "el-icon-sort-down",
+            "path": "/dashboard/menu2/menu2"
+          },
+          {
+            "name": "菜单3-菜单2-菜单3",
+            "icon": "el-icon-sort-up",
+            "path": "/dashboard/menu2/menu3"
+          }
+        ]
+      },
+      {
+        "name": "菜单3-菜单3",
+        "icon": "el-icon-upload2",
+        "subMenu": [
+          {
+            "name": "菜单3-菜单3-菜单1",
+            "icon": "el-icon-sort",
+            "path": "/dashboard/menu3/menu1"
+          },
+          {
+            "name": "菜单3-菜单3-菜单2",
+            "icon": "el-icon-minus",
+            "path": "/dashboard/menu3/menu2"
+          },
+          {
+            "name": "菜单3-菜单3-菜单3",
+            "icon": "el-icon-date",
+            "path": "/dashboard/menu3/menu3"
+          }
+        ]
+      }
+    ]
+  }
+]
