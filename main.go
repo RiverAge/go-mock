@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS column (
 	value VARCHAR(80),
 	width INTEGER,
 	location VARCHAR(80),
+	fixed VARCHAR(10),
 	` + "`" + `order` + "`" + `INTEGER
 );
 
@@ -54,6 +55,7 @@ type Column struct {
 	Width    float32 `db:"width" json:"width"`
 	Location string  `db:"location" json:"location"`
 	Order    string  `db:"order" json:"order"`
+	Fixed    string  `db:"fixed" json:"fixed"`
 }
 
 type Person struct {
