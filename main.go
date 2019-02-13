@@ -217,7 +217,7 @@ func dataColumnUpdate(w http.ResponseWriter, r *http.Request) {
 
 	tx := db.MustBegin()
 	for i, datum := range data {
-		tx.MustExec("update `column` set location = $1, `order`=$2 where value=$3", datum.Location, i, datum.Value)
+		tx.MustExec("update `column` set location = $1, `order`=$2, hidden = $3, frozen = $4 where value=$5", datum.Location, i, datum.Hidden, datum.Frozen, datum.Value)
 	}
 	tx.Commit()
 
