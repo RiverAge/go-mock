@@ -269,14 +269,42 @@ func dataPerson(w http.ResponseWriter, r *http.Request) {
 	db.MustExec(schema)
 
 	people := []Person{}
-	db.Select(&people, "select * from person limit 50")
+	currentPages := r.URL.Query()["currentPage"]
+	pageSizes := r.URL.Query()["pageSize"]
+	currentPage := 1
+	pageSize := 10
+	if len(currentPages) != 0 {
+		currentPage, err = strconv.Atoi(currentPages[0])
+	}
+	if len(pageSizes) != 0 {
+		pageSize, err = strconv.Atoi(pageSizes[0])
+	}
+
+	startOffset := (currentPage - 1) * pageSize
+	db.Select(&people, "select * from person limit $1,$2", startOffset, pageSize)
+	count := make([]int, 2)
+	err = db.Select(&count, "select count(*) from person")
 
 	db.Close()
+
+	type PaginationT struct {
+		PageSize    int      `json:"pageSize"`
+		CurrentPage int      `json:"currentPage"`
+		Total       int      `json:"total"`
+		Content     []Person `json:"content"`
+	}
+
+	pa := PaginationT{
+		PageSize:    pageSize,
+		CurrentPage: currentPage,
+		Total:       count[2],
+		Content:     people,
+	}
 
 	ret := codeRetT{
 		Code:   "0",
 		Des:    "Request has been fullfilled!",
-		Result: people,
+		Result: pa,
 	}
 
 	json.NewEncoder(w).Encode(ret)
