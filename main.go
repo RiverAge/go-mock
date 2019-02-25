@@ -1967,22 +1967,48 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println(r.Header)
 
 	if r.Method == "POST" {
-		file, handler, err := r.FormFile("file")
 
-		if err != nil {
-			fmt.Println(err)
+		r.ParseMultipartForm(32 << 20)
+		fhs := r.MultipartForm.File["file"]
+
+		for _, fh := range fhs {
+			f, err := fh.Open()
+			defer f.Close()
+			if err != nil {
+				panic(err)
+			}
+
+			output, err := os.OpenFile("./file_data/"+fh.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+			defer output.Close()
+
+			if err != nil {
+				panic(err)
+			}
+
+			io.Copy(output, f)
+
+			// fmt.Println(f.Filename)
+			// f is one of the files
 		}
 
-		f, err := os.OpenFile("./file_data/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+		// file, handler, err := r.FormFile("file")
 
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
+		// if err != nil {
+		// 	fmt.Println(err)
+		// }
 
-		io.Copy(f, file)
+		// fmt.Println(handler.Filename)
 
-		defer file.Close()
+		// f, err := os.OpenFile("./file_data/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+
+		// if err != nil {
+		// 	fmt.Println(err)
+		// 	return
+		// }
+
+		// io.Copy(f, file)
+
+		// defer file.Close()
 
 	}
 
