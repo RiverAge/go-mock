@@ -133,6 +133,7 @@ func main() {
 	router.HandleFunc("/data/column/update", dataColumnUpdate)
 	router.HandleFunc("/data/column/width/update", dataColumnWidthUpdate)
 	router.HandleFunc("/data/update/from/csv", updateFromCSV)
+	router.HandleFunc("/data/upload_file", uploadFile)
 
 	log.Fatal(http.ListenAndServe(":8088", router))
 }
@@ -1953,5 +1954,51 @@ func enterCustomerStatistics(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
+	json.NewEncoder(w).Encode(response)
+}
+
+func uploadFile(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+
+	// var Buf bytes.Buffer
+
+	// fmt.Println(r.Method)
+	// fmt.Println(r.Header)
+
+	if r.Method == "POST" {
+		file, handler, err := r.FormFile("file")
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		f, err := os.OpenFile("./file_data/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		io.Copy(f, file)
+
+		defer file.Close()
+
+	}
+
+	// file, header, err := r.FormFile("file")
+
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// defer file.Close()
+
+	// fmt.Println(header)
+
+	response := resRet{
+		Result: true,
+		Msg:    "",
+	}
 	json.NewEncoder(w).Encode(response)
 }
