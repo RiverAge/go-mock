@@ -24,6 +24,18 @@ import (
 )
 
 var schema = `
+CREATE TABLE IF NOT EXISTS raw_column (
+    value     VARCHAR (255),
+    module_id VARCHAR (255),
+    fixed     BOOLEAN,
+    name      VARCHAR (255),
+    location  CHAR (2),
+    PRIMARY KEY (
+        value,
+        module_id
+    )
+);
+
 CREATE TABLE IF NOT EXISTS column (
 	name VARCHAR(80),
 	value VARCHAR(80),
@@ -135,6 +147,24 @@ func main() {
 	router.HandleFunc("/data/update/from/csv", updateFromCSV)
 	router.HandleFunc("/data/upload_file", uploadFile)
 
+	router.HandleFunc("/data/test_query_string", testQueryString)
+
+	router.HandleFunc("/api/ff-admin/v1/employee/getEno", getEno)
+	router.HandleFunc("/api/ff-flatcar/v1/boardInfo/queryBoardInfoList/search", plateSearch)
+
+	router.HandleFunc("/drop-down/ds", dropDownDS)
+	router.HandleFunc("/cascade/ds", cascadeDS)
+
+	router.HandleFunc("/custom-table/maintenance/table", GetMaintenanceTable)
+	router.HandleFunc("/custom-table/user/maintenance/table", GetUserMaintenanceTable)
+	router.HandleFunc("/custom-table/user/maintenance/table/width", UpdateUserMaintenanceTableWidth)
+	router.HandleFunc("/custom-table/user/maintenance/reset", ResetUserMaintenanceTable)
+	router.HandleFunc("/custom-table/maintenance/table/overrie-columns", OverrideUserMaintenanceTable)
+	router.HandleFunc("/custom-table/maintenance/filter", GetMaintenanceFilter)
+	router.HandleFunc("/custom-table/user/maintenance/filter", GetUserMaintenanceFilter)
+	router.HandleFunc("/custom-table/user/maintenance/filter/reset", ResetUserMaintenanceFilter)
+	router.HandleFunc("/custom-table/maintenance/filter/overrie-columns", OverrideUserMaintenanceFilter)
+
 	log.Fatal(http.ListenAndServe(":8088", router))
 }
 
@@ -142,6 +172,66 @@ type codeRetT struct {
 	Code   string      `json:"code"`
 	Result interface{} `json:"result"`
 	Des    string      `json:"des"`
+}
+
+func cascadeDS(w http.ResponseWriter, r *http.Request) {
+	plan, _ := ioutil.ReadFile("account.json")
+	var data interface{}
+	err := json.Unmarshal(plan, &data)
+	if err != nil {
+		// fmt.Println(err)
+		panic(err)
+	}
+
+	// fmt.Println(data)
+
+	json.NewEncoder(w).Encode(data)
+}
+
+func dropDownDS(w http.ResponseWriter, r *http.Request) {
+	plan, _ := ioutil.ReadFile("bank.json")
+	var data interface{}
+	err := json.Unmarshal(plan, &data)
+	if err != nil {
+		// fmt.Println(err)
+		panic(err)
+	}
+	// fmt.Println(data)
+
+	json.NewEncoder(w).Encode(data)
+}
+
+func plateSearch(w http.ResponseWriter, r *http.Request) {
+
+	plan, _ := ioutil.ReadFile("plate-search.json")
+	var data interface{}
+	err := json.Unmarshal(plan, &data)
+	if err != nil {
+		// fmt.Println(err)
+		panic(err)
+	}
+	// fmt.Println(data)
+
+	json.NewEncoder(w).Encode(data)
+
+}
+
+func getEno(w http.ResponseWriter, r *http.Request) {
+	json.NewEncoder(w).Encode(codeRetT{
+		Code:   "0",
+		Result: "0009",
+		Des:    "fullfill the request!",
+	})
+}
+
+func testQueryString(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+
+	queryStr := r.URL.Query()["queryStr"][0]
+	fmt.Println(queryStr)
+
+	json.NewEncoder(w).Encode("0")
 }
 
 func updateFromCSV(w http.ResponseWriter, r *http.Request) {
@@ -1966,17 +2056,29 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println(r.Method)
 	// fmt.Println(r.Header)
 
+	type fileST struct {
+		OriginalName string `json:"originalName"`
+		FileID       string `json:"fileId"`
+	}
+
+	var fileS []fileST
+
 	if r.Method == "POST" {
 
 		r.ParseMultipartForm(32 << 20)
 		fhs := r.MultipartForm.File["file"]
 
-		for _, fh := range fhs {
+		fileS = make([]fileST, len(fhs))
+
+		for index, fh := range fhs {
 			f, err := fh.Open()
 			defer f.Close()
 			if err != nil {
 				panic(err)
 			}
+
+			fileS[index].FileID = xid.New().String()
+			fileS[index].OriginalName = fh.Filename
 
 			output, err := os.OpenFile("./file_data/"+fh.Filename, os.O_WRONLY|os.O_CREATE, 0666)
 			defer output.Close()
@@ -2022,9 +2124,14 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 
 	// fmt.Println(header)
 
-	response := resRet{
-		Result: true,
-		Msg:    "",
+	// response := resRet{
+	// 	Result: true,
+	// 	Msg:    "",
+	// 	Data:   fileS,
+	// }
+	if len(fileS) > 0 {
+		json.NewEncoder(w).Encode(fileS[0])
+	} else {
+		json.NewEncoder(w).Encode("")
 	}
-	json.NewEncoder(w).Encode(response)
 }

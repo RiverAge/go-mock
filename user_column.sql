@@ -1,0 +1,4 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE user_column (module_id VARCHAR (255) DEFAULT (''), user_id VARCHAR (255) DEFAULT (''), value VARCHAR (255) DEFAULT (''), hidden CHAR (1) DEFAULT (0), frozen CHAR (1) DEFAULT (0), seq VARCHAR (255), location CHAR (2) DEFAULT (1), width INTEGER DEFAULT "", id VARCHAR (255) PRIMARY KEY DEFAULT (''), rule VARCHAR (255));
+COMMIT;
