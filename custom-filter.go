@@ -31,6 +31,8 @@ type userFilter struct {
 
 // GetMaintenanceFilter 运维表数据
 func GetMaintenanceFilter(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 
 	switch r.Method {
 	case http.MethodGet:
@@ -111,6 +113,8 @@ func updateMaintenanceFilter(w http.ResponseWriter, r *http.Request) {
 
 // GetUserMaintenanceFilter 用户过滤数据
 func GetUserMaintenanceFilter(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	switch r.Method {
 	case http.MethodGet:
 		getUserMaintenanceFilter(w, r)
@@ -229,6 +233,8 @@ func getUserMaintenanceFilter(w http.ResponseWriter, r *http.Request) {
 
 // ResetUserMaintenanceFilter 重置用户过滤数据
 func ResetUserMaintenanceFilter(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	db, err := sqlx.Connect("sqlite3", "_db.db")
 	if err != nil {
 		log.Fatalln(err)
@@ -259,6 +265,8 @@ func ResetUserMaintenanceFilter(w http.ResponseWriter, r *http.Request) {
 
 // OverrideUserMaintenanceFilter 重置用户过滤数据
 func OverrideUserMaintenanceFilter(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	db, err := sqlx.Connect("sqlite3", "_db.db")
 	if err != nil {
 		log.Fatalln(err)

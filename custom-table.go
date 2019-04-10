@@ -44,6 +44,9 @@ type userColumn struct {
 // GetMaintenanceTable 运维表数据
 func GetMaintenanceTable(w http.ResponseWriter, r *http.Request) {
 
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+
 	switch r.Method {
 	case http.MethodGet:
 		getMaintenanceTable(w, r)
@@ -134,6 +137,9 @@ func (slice sliceString) search(str string) bool {
 
 // GetUserMaintenanceTable 用户表数据
 func GetUserMaintenanceTable(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+
 	switch r.Method {
 	case http.MethodGet:
 		getUserMaintenanceTable(w, r)
@@ -271,6 +277,9 @@ func getUserMaintenanceTable(w http.ResponseWriter, r *http.Request) {
 
 // ResetUserMaintenanceTable 重置用户表数据
 func ResetUserMaintenanceTable(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+
 	db, err := sqlx.Connect("sqlite3", "_db.db")
 	if err != nil {
 		log.Fatalln(err)
@@ -301,6 +310,9 @@ func ResetUserMaintenanceTable(w http.ResponseWriter, r *http.Request) {
 
 // OverrideUserMaintenanceTable 重置用户表数据
 func OverrideUserMaintenanceTable(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	
 	db, err := sqlx.Connect("sqlite3", "_db.db")
 	if err != nil {
 		log.Fatalln(err)
@@ -353,6 +365,9 @@ func OverrideUserMaintenanceTable(w http.ResponseWriter, r *http.Request) {
 
 //UpdateUserMaintenanceTableWidth 设置表格宽度
 func UpdateUserMaintenanceTableWidth(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+
 	db, err := sqlx.Connect("sqlite3", "_db.db")
 	if err != nil {
 		log.Fatalln(err)

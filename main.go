@@ -203,6 +203,9 @@ func dropDownDS(w http.ResponseWriter, r *http.Request) {
 
 func plateSearch(w http.ResponseWriter, r *http.Request) {
 
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	
 	plan, _ := ioutil.ReadFile("plate-search.json")
 	var data interface{}
 	err := json.Unmarshal(plan, &data)
@@ -217,6 +220,8 @@ func plateSearch(w http.ResponseWriter, r *http.Request) {
 }
 
 func getEno(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	json.NewEncoder(w).Encode(codeRetT{
 		Code:   "0",
 		Result: "0009",
